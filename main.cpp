@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cstdint>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <optional>
@@ -9,8 +10,8 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-const uint32_t SCREEN_WIDTH = 1280;
-const uint32_t SCREEN_HEIGHT = 720;
+const uint32_t SCREEN_WIDTH = 800;
+const uint32_t SCREEN_HEIGHT = 480;
 
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
@@ -112,7 +113,10 @@ private:
         std::vector<VkLayerProperties> availableLayers(layerCount);
         vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
+        std::cout << "Validation layers:" << std::endl;
         for (const char* layerName : validationLayers) {
+            std::cout << "  - " << layerName << std::endl;
+
             bool layerFound = false;
 
             for (const auto& layerProperties : availableLayers) {
@@ -132,7 +136,7 @@ private:
 
     void createInstance() {
         if (enableValidationLayers && !checkValidationLayerSupport()) {
-            throw std::runtime_error("validation layers requested, but not available!");
+            throw std::runtime_error("Validation layers requested, but not available!");
         }
 
         VkApplicationInfo appInfo{};
